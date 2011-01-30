@@ -19,13 +19,15 @@ class Main extends Activity {
     setContentView(menu)
     var grocList: Button = new Button(this)
     grocList.setText("Grocery List")
+    grocList.setOnClickListener(new ViewSwitcher(this, classOf[GroceryList]))
     menu.addView(grocList)
     var itemList: Button = new Button(this)
     itemList.setText("Item List")
-    itemList.setOnClickListener(new GroceryView(this))
+    itemList.setOnClickListener(new ViewSwitcher(this, classOf[FoodList]))
     menu.addView(itemList)
     var createItem: Button = new Button(this)
     createItem.setText("Create Item")
+    createItem.setOnClickListener(new ViewSwitcher(this, classOf[CreateItem]))
     menu.addView(createItem)
   }
 
@@ -34,10 +36,10 @@ class Main extends Activity {
     inflater.inflate(R.menu.mainmenu, menu)
     return true
   }
+}
 
-  class GroceryView (c : Context) extends OnClickListener {
-    override def onClick(v: View): Unit = {
-      startActivity(new Intent(c, classOf[AvailableGroceries]))
-    }
+class ViewSwitcher (context : Context, cls : Class[_]) extends OnClickListener {
+  override def onClick(v: View): Unit = {
+    context.startActivity(new Intent(context, cls))
   }
 }

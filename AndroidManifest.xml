@@ -11,8 +11,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AvailableGroceries"
+        <activity android:name=".GroceryList"
                   android:label="Grocery List">
         </activity>
+        <activity android:name=".FoodList"
+                  android:label="Food List">
+        </activity>
+        <activity android:name=".CreateItem"
+                  android:label="Create Item">
+        </activity>
     </application>
-</manifest> 
+</manifest>

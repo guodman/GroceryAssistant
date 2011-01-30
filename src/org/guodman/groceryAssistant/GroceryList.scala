@@ -10,16 +10,19 @@ import android.view.View
 import android.widget.Toast
 import android.widget.TextView
 
-class AvailableGroceries extends ListActivity {
+class GroceryList extends ListActivity {
   override def onCreate(savedInstanceState: Bundle): Unit = {
     super.onCreate(savedInstanceState)
 
-    var items = List("Bread", "Peanut Butter", "Jelly")
+    //var items = List("Bread", "Peanut Butter", "Jelly")
+    var db = new DatabaseManager(this)
+    var items = db.getGroceryList()
     var i: java.util.List[String] = java.util.Arrays.asList(items.toArray: _*)
     setListAdapter(new ArrayAdapter[String](this, R.layout.list_item, i))
     var lv: ListView = getListView()
     lv.setTextFilterEnabled(true)
     lv.setOnItemClickListener(new oicl())
+    lv.setItemChecked(1, true)
   }
 
   class oicl extends OnItemClickListener {
