@@ -44,13 +44,14 @@ class DatabaseManager (context : Context){
 		
 	}
 	
-	def getGroceryList() : List[String] = {
-		var lst : List[String] = Nil
-		var cursor = db.rawQuery("SELECT foods.name FROM foods INNER JOIN groceryList ON id = foodid", Array[String]())
+	def getGroceryList() : List[(Long, String, Boolean)] = {
+		var lst : List[(Long, String, Boolean)] = Nil
+		var cursor = db.rawQuery("SELECT foods.id, foods.name, groceryList.checked FROM foods INNER JOIN groceryList ON id = foodid", Array[String]())
 		//var cursor : Cursor = db.query("groceryList", Array[String]("name"), null, null, null, null, "name desc")
 		if (cursor.moveToFirst()) {
 			do {
-				lst = cursor.getString(0) :: lst
+				val status : Boolean = cursor.getLong(2) == 1
+				lst = (cursor.getLong(0), cursor.getString(1), status) :: lst
 			} while (cursor.moveToNext());
 		}
 		if (cursor != null && !cursor.isClosed()) {
@@ -82,12 +83,17 @@ class DatabaseManager (context : Context){
 		}
 	}
 	
-	def markGroceryItemObtained(foodid : Int) : Unit = {
-		
-	}
-	
-	def addFoodToGroceryList(foodid : Int) : Unit = {
-		
+	def markGroceryItemObtained(foodid : Long, status : Boolean) : Unit = {
+		val insertFood = "UPDATE groceryList SET checked=? WHERE foodid=?"
+		var insertStmt = db.compileStatement(insertFood)
+		if (status) {
+			insertStmt.bindLong(1, 1)
+		} else {
+			insertStmt.bindLong(1, 0)
+		}
+		insertStmt.bindLong(2, foodid)
+		insertStmt.executeInsert()
+		insertStmt.close
 	}
 	
 	def createFood(name : String, aisle : String) : Unit = {

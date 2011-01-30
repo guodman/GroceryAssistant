@@ -1,28 +1,39 @@
 /home/doug/programming/workspace/GroceryAssistant/bin:/home/doug/apps/android-sdk-linux_86/platforms/android-7/android.jar:/home/doug/apps/eclipse/configuration/org.eclipse.osgi/bundles/792/1/.cp/lib/scala-library.jar:/home/doug/apps/eclipse/configuration/org.eclipse.osgi/bundles/792/1/.cp/lib/scala-dbc.jar:/home/doug/apps/eclipse/configuration/org.eclipse.osgi/bundles/792/1/.cp/lib/scala-swing.jar
 -------
-/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/gen/org/guodman/groceryAssistant/R.java
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/gen/org/guodman/groceryAssistant/R.java
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
-/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/gen/org/guodman/groceryAssistant/R.java
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala
-/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/gen/org/guodman/groceryAssistant/R.java
 -------
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/CreateItem.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/CreateItem$SaveItem.class
-/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/GroceryList$oicl.class
-/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/GroceryList.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/FoodList$oicl.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/FoodList.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/FoodList$oicl.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/FoodList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/FoodList.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/CreateItem.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/CreateItem.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/CreateItem$SaveItem.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/Main.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/Main.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/ViewSwitcher.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/OpenHelper.class
 /home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/DatabaseManager.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/DatabaseManager.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/GroceryList$CheckedListener.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/GroceryList$$anonfun$onCreate$1.class
+/home/doug/programming/workspace/GroceryAssistant/src/org/guodman/groceryAssistant/GroceryList.scala -> /home/doug/programming/workspace/GroceryAssistant/bin/org/guodman/groceryAssistant/GroceryList.class
