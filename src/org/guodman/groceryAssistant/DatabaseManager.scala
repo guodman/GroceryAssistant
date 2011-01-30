@@ -1,5 +1,7 @@
 package org.guodman.groceryAssistant
 
+import android.util.Log
+import android.database.sqlite.SQLiteConstraintException
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase.CursorFactory
 import android.database.sqlite.SQLiteOpenHelper
@@ -28,6 +30,9 @@ class DatabaseManager (context : Context){
 	
 	def getFoodById(id : Int) : String = {
 		var cursor = db.rawQuery("SELECT * FROM foods WHERE (id=?)", Array[String](id.toString))
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close()
+		}
 		return "TODO"
 	}
 	
@@ -49,9 +54,9 @@ class DatabaseManager (context : Context){
 			} while (cursor.moveToNext());
 		}
 		if (cursor != null && !cursor.isClosed()) {
-			cursor.close();
+			cursor.close()
 		}
-		return lst;
+		return lst
 	}
 	
 	def addToGroceryList(foodid : Int) : Unit = {
@@ -62,11 +67,18 @@ class DatabaseManager (context : Context){
 		var cursor = db.rawQuery("SELECT id FROM foods WHERE name=?", Array[String](foodName))
 		if (cursor.moveToFirst) {
 			var foodid = cursor.getInt(0)
-			cursor.close()
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close();
+			}
 			var insertStmt = db.compileStatement("INSERT INTO groceryList (foodid, checked) values (?, ?)")
 			insertStmt.bindLong(1, foodid)
 			insertStmt.bindLong(2, 0)
-			insertStmt.executeInsert()
+			try {
+				insertStmt.executeInsert()
+			} catch {
+				case e:SQLiteConstraintException => Log.i("GroceryAssistant", e.toString)
+			}
+			insertStmt.close
 		}
 	}
 	
@@ -84,6 +96,7 @@ class DatabaseManager (context : Context){
 		insertStmt.bindString(1, name)
 		insertStmt.bindString(2, aisle)
 		insertStmt.executeInsert()
+		insertStmt.close
 	}
 	
 	def createTag(name : String) : Unit = {
