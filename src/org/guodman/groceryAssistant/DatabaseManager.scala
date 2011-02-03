@@ -83,7 +83,7 @@ object databaseManager {
 			if (cursor.moveToFirst) {
 				var foodid = cursor.getInt(0)
 				if (cursor != null && !cursor.isClosed()) {
-					cursor.close();
+					cursor.close()
 				}
 				var insertStmt = db.compileStatement("INSERT INTO groceryList (foodid, checked) values (?, ?)")
 				insertStmt.bindLong(1, foodid)
@@ -96,9 +96,28 @@ object databaseManager {
 				insertStmt.close
 			}
 		}
+		
+		def getFoodId(foodName: String): Int = {
+			var cursor = db.rawQuery("SELECT id FROM foods WHERE name=?", Array[String](foodName))
+			if (cursor.moveToFirst) {
+				var foodid = cursor.getInt(0)
+				if (cursor != null && !cursor.isClosed()) {
+					cursor.close()
+				}
+				return foodid
+			} else {
+				return 0
+			}
+		}
 	
 		def removeFromGroceryList(foodName: String) : Unit = {
-			var cursor = db.rawQuery("REMOVE FROM groceryList WHERE name=?", Array[String](foodName))
+			val foodid = getFoodId(foodName)
+			Log.i("DatabaseManager", "Removing " + foodName + " id:" + foodid)
+			var cursor = db.rawQuery("DELETE FROM groceryList WHERE foodid=?", Array[String](foodid))
+			cursor.moveToFirst
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close()
+			}
 		}
 	
 		def markGroceryItemObtained(foodid : Long, status : Boolean) : Unit = {
@@ -134,6 +153,8 @@ object databaseManager {
 		def addChildToFood(parentid : Int, childid : Int) : Unit = {
 		
 		}
+		
+		implicit def int2str(i:Int): String = i.toString
 	}
 }
 

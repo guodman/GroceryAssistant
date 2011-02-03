@@ -46,11 +46,19 @@ class CheckedListener (parent: Activity, foodid : Long) extends OnCheckedChangeL
 	}
 }
 
-class GroceryItem (parent: Activity, val name: String, isChecked: Boolean, foodid: Long) extends CheckBox (parent) {
+class GroceryItem (parent: Activity, val name: String, isChecked: Boolean, foodid: Long) extends CheckBox (parent) with View.OnLongClickListener {
 	setText(name)
 	setChecked(isChecked)
 	setOnCheckedChangeListener(new CheckedListener(parent, foodid))
 	//parent.registerForContextMenu(this)
 	
 	def getName = name
+	
+	setOnLongClickListener(this)
+	
+	override def onLongClick(v: View): Boolean = {
+		databaseManager.getDB.removeFromGroceryList(name)
+		setVisibility(View.GONE)
+		return true
+	}
 }
