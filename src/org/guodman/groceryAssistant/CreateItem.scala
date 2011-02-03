@@ -39,7 +39,7 @@ class CreateItem extends Activity {
 
 	class SaveItem (context : Context, cls : Class[_], name : EditText, aisle : EditText) extends OnClickListener {
 		override def onClick(v: View): Unit = {
-			var db = new DatabaseManager(context)
+			var db = databaseManager.getDB(context)
 			db.createFood(name.getText.toString, aisle.getText.toString)
 			//Toast.makeText(getApplicationContext(), name.getText.toString + " - " + aisle.getText.toString, Toast.LENGTH_SHORT).show();
 			context.startActivity(new Intent(context, cls))

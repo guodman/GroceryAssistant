@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  	<item android:title="Tag" android:id="@+id/tag"></item>
+  	<item android:title="Add Child" android:id="@+id/addchild"></item>
+  	<item android:title="Add To List" android:id="@+id/addtolist"></item>
+  	<item android:title="Edit Food" android:id="@+id/edit"></item>
+</menu>
