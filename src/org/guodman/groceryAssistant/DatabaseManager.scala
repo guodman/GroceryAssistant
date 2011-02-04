@@ -64,7 +64,7 @@ object databaseManager {
 	
 		def getGroceryList() : List[(Long, String, Boolean)] = {
 			var lst : List[(Long, String, Boolean)] = Nil
-			var cursor = db.rawQuery("SELECT foods.id, foods.name, groceryList.checked FROM foods INNER JOIN groceryList ON id = foodid", Array[String]())
+			var cursor = db.rawQuery("SELECT foods.id, foods.name, groceryList.checked FROM foods INNER JOIN groceryList ON id = foodid ORDER BY foods.aisle DESC", Array[String]())
 			//var cursor : Cursor = db.query("groceryList", Array[String]("name"), null, null, null, null, "name desc")
 			if (cursor.moveToFirst()) {
 				do {
