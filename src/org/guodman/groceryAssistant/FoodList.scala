@@ -25,9 +25,9 @@ class FoodList extends ListActivity {
 		val i: java.util.List[String] = java.util.Arrays.asList(items.toArray: _*)
 		adapter = new ArrayAdapter[String](this, R.layout.list_item, i)
 		setListAdapter(adapter)
-		val lv: ListView = getListView()
+		val lv: ListView = getListView
 		lv.setTextFilterEnabled(true)
-		lv.setOnItemClickListener(new oicl())
+		lv.setOnItemClickListener(new AddToGroceryList)
 		this.registerForContextMenu(lv)
 	}
 	
@@ -51,7 +51,7 @@ class FoodList extends ListActivity {
 	}
 }
 
-class oicl extends OnItemClickListener {
+class AddToGroceryList extends OnItemClickListener {
 	def onItemClick(parent: AdapterView[_], view: View,
                    position: Int, id: Long): Unit = {
 		// When clicked, show a toast with the TextView text
