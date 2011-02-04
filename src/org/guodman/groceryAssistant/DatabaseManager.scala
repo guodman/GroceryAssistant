@@ -67,7 +67,7 @@ object databaseManager {
 		def getAisle(foodName: String): String = {
 			var cursor = db.rawQuery("SELECT aisle FROM foods WHERE name=?", Array[String](foodName))
 			if (cursor.moveToFirst) {
-				var aisle = cursor.getInt(0)
+				var aisle = cursor.getString(0)
 				if (cursor != null && !cursor.isClosed()) {
 					cursor.close()
 				}
