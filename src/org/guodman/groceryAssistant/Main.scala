@@ -24,6 +24,7 @@ class Main extends Activity {
 		menu.addView(grocList)
 		var itemList: Button = new Button(this)
 		itemList.setText("Item List")
+		SetFoodListListener.listener = new AddToGroceryList
 		itemList.setOnClickListener(new ViewSwitcher(this, classOf[FoodList]))
 		menu.addView(itemList)
 		var createItem: Button = new Button(this)

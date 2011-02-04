@@ -42,7 +42,8 @@ class CreateItem extends Activity {
 			var db = databaseManager.getDB(context)
 			db.createFood(name.getText.toString, aisle.getText.toString)
 			//Toast.makeText(getApplicationContext(), name.getText.toString + " - " + aisle.getText.toString, Toast.LENGTH_SHORT).show();
-			context.startActivity(new Intent(context, cls))
+			//context.startActivity(new Intent(context, cls))
+			finish
 		}
 	}
 }

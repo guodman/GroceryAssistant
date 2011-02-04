@@ -9,21 +9,23 @@ import android.database.sqlite.SQLiteDatabase
 import android.content.Context
 
 object databaseManager {
-	var db: DatabaseManager = null
+	var _db: DatabaseManager = null
 	
 	def getDB(context: Context): DatabaseManager = {
-		if (db == null) {
-			db = new DatabaseManager(context)
+		if (_db == null) {
+			_db = new DatabaseManager(context)
 		}
-		return db
+		return _db
 	}
 	
 	def getDB(): DatabaseManager = {
-		if (db == null) {
+		if (_db == null) {
 			throw new NullPointerException("The DatabaseManager has not yet been initialized.")
 		}
-		return db
+		return _db
 	}
+	
+	def db = getDB
 
 	class DatabaseManager (context : Context){
 		val DATABASE_NAME : String= "example.db"
@@ -60,6 +62,19 @@ object databaseManager {
 	
 		def getChildren(foodid : Int) : Unit = {
 		
+		}
+		
+		def getAisle(foodName: String): String = {
+			var cursor = db.rawQuery("SELECT aisle FROM foods WHERE name=?", Array[String](foodName))
+			if (cursor.moveToFirst) {
+				var aisle = cursor.getInt(0)
+				if (cursor != null && !cursor.isClosed()) {
+					cursor.close()
+				}
+				return aisle
+			} else {
+				return 0
+			}
 		}
 	
 		def getGroceryList() : List[(Long, String, Boolean)] = {
@@ -129,17 +144,25 @@ object databaseManager {
 				insertStmt.bindLong(1, 0)
 			}
 			insertStmt.bindLong(2, foodid)
-			insertStmt.executeInsert()
+			insertStmt.executeInsert
 			insertStmt.close
 		}
 	
 		def createFood(name : String, aisle : String) : Unit = {
 			val insertFood = "INSERT INTO foods (name, aisle) values (?, ?)"
-			var insertStmt = db.compileStatement(insertFood)
+			val insertStmt = db.compileStatement(insertFood)
 			insertStmt.bindString(1, name)
 			insertStmt.bindString(2, aisle)
-			insertStmt.executeInsert()
+			insertStmt.executeInsert
 			insertStmt.close
+		}
+		
+		def editFood(foodid: Int, name : String, aisle : String) : Unit = {
+			var cursor = db.rawQuery("UPDATE foods SET name=?, aisle=? WHERE id=?", Array[String](name, aisle, foodid))
+			cursor.moveToFirst
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close()
+			}
 		}
 	
 		def createTag(name : String) : Unit = {
@@ -150,8 +173,15 @@ object databaseManager {
 		
 		}
 	
-		def addChildToFood(parentid : Int, childid : Int) : Unit = {
-		
+		def addChildToFood(parent : String, child : String) : Unit = {
+			val parentid = getFoodId(parent)
+			val childid = getFoodId(child)
+			val insertFood = "INSERT INTO foorRelations (parentid, childid) values (?, ?)"
+			val insertStmt = db.compileStatement(insertFood)
+			insertStmt.bindString(1, parentid)
+			insertStmt.bindString(2, childid)
+			insertStmt.executeInsert
+			insertStmt.close
 		}
 		
 		implicit def int2str(i:Int): String = i.toString
