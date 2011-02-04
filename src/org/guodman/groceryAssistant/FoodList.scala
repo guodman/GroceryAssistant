@@ -30,15 +30,6 @@ class FoodList extends ListActivity {
 		lv.setOnItemClickListener(new oicl())
 		this.registerForContextMenu(lv)
 	}
-
-	class oicl extends OnItemClickListener {
-		def onItemClick(parent: AdapterView[_], view: View,
-                    position: Int, id: Long): Unit = {
-			// When clicked, show a toast with the TextView text
-			Toast.makeText(getApplicationContext(), view.asInstanceOf[TextView].getText(), Toast.LENGTH_SHORT).show()
-			databaseManager.getDB.addToGroceryList(view.asInstanceOf[TextView].getText.asInstanceOf[String])
-		}
-	}
 	
 	override def onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo): Unit = {
 		super.onCreateContextMenu(menu, v, menuInfo)
@@ -57,5 +48,14 @@ class FoodList extends ListActivity {
 			return true
 		}
 		return super.onContextItemSelected(item);
+	}
+}
+
+class oicl extends OnItemClickListener {
+	def onItemClick(parent: AdapterView[_], view: View,
+                   position: Int, id: Long): Unit = {
+		// When clicked, show a toast with the TextView text
+		Toaster.doToast(view.asInstanceOf[TextView].getText)
+		databaseManager.getDB.addToGroceryList(view.asInstanceOf[TextView].getText.asInstanceOf[String])
 	}
 }

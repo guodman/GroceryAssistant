@@ -13,6 +13,7 @@ import android.widget.Button
 
 class Main extends Activity {
 	override def onCreate(savedInstanceState: Bundle): Unit = {
+		Toaster.context = getApplicationContext
 		super.onCreate(savedInstanceState)
 		var menu: LinearLayout = new LinearLayout(this)
 		menu.setOrientation(LinearLayout.VERTICAL)
