@@ -27,7 +27,7 @@ object databaseManager {
 	
 	def db = getDB
 
-	class DatabaseManager (context : Context){
+	class DatabaseManager (context: Context) {
 		val DATABASE_NAME : String= "example.db"
 		val DATABASE_VERSION : Int = 1
 		
@@ -35,8 +35,8 @@ object databaseManager {
 		var db : SQLiteDatabase = openHelper.getWritableDatabase()
 		
 		def getAllFood() : List[String] = {
-			var lst : List[String] = Nil
-			var cursor : Cursor = db.query("foods", Array[String]("name"), null, null, null, null, "name desc")
+			var lst: List[String] = Nil
+			var cursor: Cursor = db.query("foods", Array[String]("name"), null, null, null, null, "name desc")
 			if (cursor.moveToFirst()) {
 				do {
 					lst = cursor.getString(0) :: lst
@@ -48,7 +48,7 @@ object databaseManager {
 			return lst;
 		}
 		
-		def getFoodById(id : Int) : String = {
+		def getFoodById(id: Int) : String = {
 			var cursor = db.rawQuery("SELECT * FROM foods WHERE (id=?)", Array[String](id.toString))
 			if (cursor != null && !cursor.isClosed()) {
 				cursor.close()
@@ -56,11 +56,11 @@ object databaseManager {
 			return "TODO"
 		}
 	
-		def getFoodByTags(tagid : Array[Int]) : Unit = {
+		def getFoodByTags(tagid: Array[Int]) : Unit = {
 		
 		}
 	
-		def getChildren(foodid : Int) : Unit = {
+		def getChildren(foodid: Int) : Unit = {
 		
 		}
 		
@@ -77,13 +77,13 @@ object databaseManager {
 			}
 		}
 	
-		def getGroceryList() : List[(Long, String, Boolean)] = {
-			var lst : List[(Long, String, Boolean)] = Nil
+		def getGroceryList(): List[(Long, String, Boolean)] = {
+			var lst: List[(Long, String, Boolean)] = Nil
 			var cursor = db.rawQuery("SELECT foods.id, foods.name, groceryList.checked FROM foods INNER JOIN groceryList ON id = foodid ORDER BY foods.aisle DESC", Array[String]())
-			//var cursor : Cursor = db.query("groceryList", Array[String]("name"), null, null, null, null, "name desc")
+			//var cursor: Cursor = db.query("groceryList", Array[String]("name"), null, null, null, null, "name desc")
 			if (cursor.moveToFirst()) {
 				do {
-					val status : Boolean = cursor.getLong(2) == 1
+					val status: Boolean = cursor.getLong(2) == 1
 					lst = (cursor.getLong(0), cursor.getString(1), status) :: lst
 				} while (cursor.moveToNext());
 			}
@@ -93,7 +93,7 @@ object databaseManager {
 			return lst
 		}
 	
-		def addToGroceryList(foodName : String) : Unit = {
+		def addToGroceryList(foodName: String) : Unit = {
 			var cursor = db.rawQuery("SELECT id FROM foods WHERE name=?", Array[String](foodName))
 			if (cursor.moveToFirst) {
 				var foodid = cursor.getInt(0)
@@ -135,7 +135,7 @@ object databaseManager {
 			}
 		}
 	
-		def markGroceryItemObtained(foodid : Long, status : Boolean) : Unit = {
+		def markGroceryItemObtained(foodid: Long, status: Boolean) : Unit = {
 			val insertFood = "UPDATE groceryList SET checked=? WHERE foodid=?"
 			var insertStmt = db.compileStatement(insertFood)
 			if (status) {
@@ -148,7 +148,7 @@ object databaseManager {
 			insertStmt.close
 		}
 	
-		def createFood(name : String, aisle : String) : Unit = {
+		def createFood(name: String, aisle: String) : Unit = {
 			val insertFood = "INSERT INTO foods (name, aisle) values (?, ?)"
 			val insertStmt = db.compileStatement(insertFood)
 			insertStmt.bindString(1, name)
@@ -157,7 +157,7 @@ object databaseManager {
 			insertStmt.close
 		}
 		
-		def editFood(foodid: Int, name : String, aisle : String) : Unit = {
+		def editFood(foodid: Int, name: String, aisle: String) : Unit = {
 			var cursor = db.rawQuery("UPDATE foods SET name=?, aisle=? WHERE id=?", Array[String](name, aisle, foodid))
 			cursor.moveToFirst
 			if (cursor != null && !cursor.isClosed()) {
@@ -165,15 +165,15 @@ object databaseManager {
 			}
 		}
 	
-		def createTag(name : String) : Unit = {
+		def createTag(name: String) : Unit = {
 		
 		}
 	
-		def addTagToFood(tagid : Int, foodid : Int) : Unit = {
+		def addTagToFood(tagid: Int, foodid: Int) : Unit = {
 		
 		}
 	
-		def addChildToFood(parent : String, child : String) : Unit = {
+		def addChildToFood(parent: String, child: String) : Unit = {
 			val parentid = getFoodId(parent)
 			val childid = getFoodId(child)
 			val insertFood = "INSERT INTO foorRelations (parentid, childid) values (?, ?)"
@@ -184,7 +184,7 @@ object databaseManager {
 			insertStmt.close
 		}
 		
-		implicit def int2str(i:Int): String = i.toString
+		implicit def int2str(i: Int): String = i.toString
 	}
 }
 
