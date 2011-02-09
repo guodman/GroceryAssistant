@@ -1,9 +1,12 @@
 package org.guodman.groceryAssistant
 
+import scala.collection.mutable.ListBuffer
 import android.view.MenuItem
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
+import android.view.MenuInflater
+import android.view.Menu
 import android.widget.CompoundButton
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
@@ -20,22 +23,43 @@ import android.widget.Toast
 import android.widget.TextView
 
 class GroceryList extends Activity {
+	var checklist = ListBuffer[CheckBox]()
+	var view: LinearLayout = null
 	
 	override def onCreate(savedInstanceState: Bundle): Unit = {
 		super.onCreate(savedInstanceState)
 		
-		var view: LinearLayout = new LinearLayout(this)
+		view = new LinearLayout(this)
 		view.setOrientation(LinearLayout.VERTICAL)
 		setContentView(view)
 		var db = databaseManager.getDB(this)
 		var items = db.getGroceryList()
-		var checklist = List[CheckBox]()
-		items.foreach { arg =>
+		items foreach { arg =>
 			var (foodid, item, isChecked) = arg
 			var cb = new GroceryItem(this, item, isChecked, foodid)
-			checklist = cb :: checklist
+			checklist += cb
 			view.addView(cb)
 		}
+	}
+
+	override def onCreateOptionsMenu(menu: Menu): Boolean = {
+		var inflater = getMenuInflater()
+		inflater.inflate(R.menu.grocerymenu, menu)
+		return true
+	}
+	
+	override def onOptionsItemSelected(item: MenuItem): Boolean = {
+		if (item.getItemId == R.id.clearchecked) {
+			checklist foreach { arg =>
+				if (arg.isChecked) {
+					view.removeView(arg)
+					checklist -= arg
+				}
+			}
+			databaseManager.db.removeCheckedItems
+			return true
+		}
+		return false
 	}
 }
 

@@ -124,6 +124,14 @@ object databaseManager {
 				return 0
 			}
 		}
+		
+		def removeCheckedItems: Unit = {
+			var cursor = db.rawQuery("DELETE FROM groceryList WHERE checked=1", Array[String]())
+			cursor.moveToFirst
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close()
+			}
+		}
 	
 		def removeFromGroceryList(foodName: String) : Unit = {
 			val foodid = getFoodId(foodName)
