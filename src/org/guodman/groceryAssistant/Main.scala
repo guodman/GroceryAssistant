@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.View.OnClickListener
-import android.view.MenuInflater
-import android.view.Menu
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout
@@ -31,12 +29,6 @@ class Main extends Activity {
 		createItem.setText("Create Item")
 		createItem.setOnClickListener(new ViewSwitcher(this, classOf[CreateItem]))
 		menu.addView(createItem)
-	}
-
-	override def onCreateOptionsMenu(menu: Menu): Boolean = {
-		var inflater = getMenuInflater()
-		inflater.inflate(R.menu.mainmenu, menu)
-		return true
 	}
 }
 
