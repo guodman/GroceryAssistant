@@ -1,5 +1,6 @@
 package org.guodman.groceryAssistant
 
+import android.widget.ScrollView
 import scala.collection.mutable.ListBuffer
 import android.view.MenuItem
 import android.widget.AdapterView.AdapterContextMenuInfo
@@ -29,9 +30,11 @@ class GroceryList extends Activity {
 	override def onCreate(savedInstanceState: Bundle): Unit = {
 		super.onCreate(savedInstanceState)
 		
+		var sv: ScrollView = new ScrollView(this)
+		setContentView(sv)
 		view = new LinearLayout(this)
 		view.setOrientation(LinearLayout.VERTICAL)
-		setContentView(view)
+		sv.addView(view)
 		var db = databaseManager.getDB(this)
 		var items = db.getGroceryList()
 		items foreach { arg =>
