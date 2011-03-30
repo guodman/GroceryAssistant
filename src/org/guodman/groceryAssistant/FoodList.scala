@@ -30,7 +30,7 @@ class FoodList extends ListActivity {
 		setListAdapter(adapter)
 		val lv: ListView = getListView
 		lv.setTextFilterEnabled(true)
-		lv.setOnItemClickListener(SetFoodListListener.listener)
+		lv.setOnItemClickListener(new AddToGroceryList)
 		this.registerForContextMenu(lv)
 	}
 	
@@ -56,10 +56,6 @@ class FoodList extends ListActivity {
 		}
 		return super.onContextItemSelected(item);
 	}
-}
-
-package object SetFoodListListener {
-	var listener: OnItemClickListener = new AddToGroceryList
 }
 
 trait FoodClickListener {

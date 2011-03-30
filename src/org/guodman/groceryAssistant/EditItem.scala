@@ -62,7 +62,6 @@ class EditItem extends Activity {
 	
 	class OpenAddChildActivity(context: Context) extends OnClickListener {
 		override def onClick(v: View): Unit = {
-			SetFoodListListener.listener = new AddToGroceryList
 			startActivity(new Intent(context, classOf[FoodList]))
 		}
 	}

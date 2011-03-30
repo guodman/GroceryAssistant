@@ -77,14 +77,16 @@ object databaseManager {
 			}
 		}
 	
-		def getGroceryList(): List[(Long, String, Boolean)] = {
-			var lst: List[(Long, String, Boolean)] = Nil
-			var cursor = db.rawQuery("SELECT foods.id, foods.name, groceryList.checked FROM foods INNER JOIN groceryList ON id = foodid ORDER BY foods.aisle DESC", Array[String]())
-			//var cursor: Cursor = db.query("groceryList", Array[String]("name"), null, null, null, null, "name desc")
+		def getGroceryList(): List[(Long, String, String, Boolean)] = {
+		//def getGroceryList(): List[(String)] = {
+			var lst: List[(Long, String, String, Boolean)] = Nil
+			//var lst: List[(String)] = Nil
+			var cursor = db.rawQuery("SELECT foods.id, foods.name, foods.aisle, groceryList.checked FROM foods INNER JOIN groceryList ON id = foodid ORDER BY foods.aisle DESC", Array[String]())
 			if (cursor.moveToFirst()) {
 				do {
 					val status: Boolean = cursor.getLong(2) == 1
-					lst = (cursor.getLong(0), cursor.getString(1), status) :: lst
+					lst = (cursor.getLong(0), cursor.getString(1), cursor.getString(2), status) :: lst
+					//lst = cursor.getString(1) :: lst
 				} while (cursor.moveToNext());
 			}
 			if (cursor != null && !cursor.isClosed()) {

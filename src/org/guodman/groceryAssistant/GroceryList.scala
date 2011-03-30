@@ -1,5 +1,14 @@
 package org.guodman.groceryAssistant
 
+import android.view.View.OnLongClickListener
+import android.widget.CheckedTextView
+import android.widget.BaseAdapter
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.database.Cursor
+import android.widget.ResourceCursorAdapter
+import android.content.Context
+import android.content.Intent
 import android.widget.ScrollView
 import scala.collection.mutable.ListBuffer
 import android.view.MenuItem
@@ -23,26 +32,17 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.TextView
 
-class GroceryList extends Activity {
+class GroceryList extends ListActivity {
 	var checklist = ListBuffer[CheckBox]()
 	var view: LinearLayout = null
+	var adapter: ArrayAdapter[String] = null
+	var lastClicked: GroceryItem = null
 	
 	override def onCreate(savedInstanceState: Bundle): Unit = {
 		super.onCreate(savedInstanceState)
 		
-		var sv: ScrollView = new ScrollView(this)
-		setContentView(sv)
-		view = new LinearLayout(this)
-		view.setOrientation(LinearLayout.VERTICAL)
-		sv.addView(view)
-		var db = databaseManager.getDB(this)
-		var items = db.getGroceryList()
-		items foreach { arg =>
-			var (foodid, item, isChecked) = arg
-			var cb = new GroceryItem(this, item, isChecked, foodid)
-			checklist += cb
-			view.addView(cb)
-		}
+		var adapter = new GroceryListAdapter(this)
+		setListAdapter(adapter)
 	}
 
 	override def onCreateOptionsMenu(menu: Menu): Boolean = {
@@ -64,6 +64,49 @@ class GroceryList extends Activity {
 		}
 		return false
 	}
+	
+	override def onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo): Unit = {
+		super.onCreateContextMenu(menu, v, menuInfo)
+		var inflater = getMenuInflater()
+		inflater.inflate(R.menu.groceryitemmenu, menu)
+		if (v.isInstanceOf[GroceryItem]) {
+			lastClicked = v.asInstanceOf[GroceryItem]
+		}
+	}
+	
+	override def onContextItemSelected(item: MenuItem): Boolean = {
+		var info = item.getMenuInfo().asInstanceOf[AdapterContextMenuInfo]
+		if (item.getItemId == R.id.edit) {
+			if (lastClicked != null) {
+				var i = new Intent(this, classOf[EditItem])
+				i.putExtra("name", lastClicked.name)
+				startActivity(i)
+			}
+		}
+		return super.onContextItemSelected(item);
+	}
+}
+
+class GroceryListAdapter(a: Activity) extends BaseAdapter {
+	var checklist = ListBuffer[CheckBox]()
+	var db = databaseManager.getDB(a)
+	var items = db.getGroceryList()
+	var nextId = 0
+	items foreach { arg =>
+		var (foodid, item, aisle, isChecked) = arg
+		var cb = new GroceryItem(a, item, aisle, isChecked, foodid)
+		nextId += 1
+		cb.setId(nextId)
+		checklist += cb
+	}
+	
+	override def getCount: Int = checklist.length
+	
+	override def getItem(position: Int): Object = checklist(position)
+	
+	override def getItemId(position: Int): Long = position
+	
+	override def getView(position: Int, convertView: View, parent: ViewGroup): View = checklist(position)
 }
 
 class CheckedListener (parent: Activity, foodid : Long) extends OnCheckedChangeListener {
@@ -73,19 +116,12 @@ class CheckedListener (parent: Activity, foodid : Long) extends OnCheckedChangeL
 	}
 }
 
-class GroceryItem (parent: Activity, val name: String, isChecked: Boolean, foodid: Long) extends CheckBox (parent) with View.OnLongClickListener {
-	setText(name)
+class GroceryItem (parent: Activity, val name: String, aisle: String, isChecked: Boolean, foodid: Long) extends CheckBox (parent) {
+	setText("(" + aisle + ") " + name)
 	setChecked(isChecked)
+	setFocusable(false)
 	setOnCheckedChangeListener(new CheckedListener(parent, foodid))
-	//parent.registerForContextMenu(this)
+	parent.registerForContextMenu(this)
 	
 	def getName = name
-	
-	setOnLongClickListener(this)
-	
-	override def onLongClick(v: View): Boolean = {
-		databaseManager.getDB.removeFromGroceryList(name)
-		setVisibility(View.GONE)
-		return true
-	}
 }
