@@ -1,5 +1,6 @@
 package org.guodman.groceryAssistant
 
+import android.util.Log
 import android.view.View.OnLongClickListener
 import android.widget.CheckedTextView
 import android.widget.BaseAdapter
@@ -33,15 +34,17 @@ import android.widget.Toast
 import android.widget.TextView
 
 class GroceryList extends ListActivity {
+	private val TAG = "GroceryList"
+	
 	var checklist = ListBuffer[CheckBox]()
 	var view: LinearLayout = null
-	var adapter: ArrayAdapter[String] = null
+	var adapter: GroceryListAdapter = null
 	var lastClicked: GroceryItem = null
 	
 	override def onCreate(savedInstanceState: Bundle): Unit = {
 		super.onCreate(savedInstanceState)
 		
-		var adapter = new GroceryListAdapter(this)
+		adapter = new GroceryListAdapter(this)
 		setListAdapter(adapter)
 	}
 
@@ -80,48 +83,84 @@ class GroceryList extends ListActivity {
 			if (lastClicked != null) {
 				var i = new Intent(this, classOf[EditItem])
 				i.putExtra("name", lastClicked.name)
-				startActivity(i)
+				startActivityForResult(i, 1)
+				return true
 			}
 		}
-		return super.onContextItemSelected(item);
+		return super.onContextItemSelected(item)
+	}
+	
+	override def onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+		Log.d(TAG, "onActivityResult")
+		if (adapter != null) {
+			adapter.refreshList
+		}
+	}
+	
+	override def onResume() {
+		super.onResume()
+		Log.d(TAG, "Resuming")
+		if (adapter != null) {
+			adapter.refreshList
+		}
 	}
 }
 
 class GroceryListAdapter(a: Activity) extends BaseAdapter {
-	var checklist = ListBuffer[CheckBox]()
+	val TAG = "GroceryListAdapter"
+	
 	var db = databaseManager.getDB(a)
 	var items = db.getGroceryList()
-	var nextId = 0
-	items foreach { arg =>
-		var (foodid, item, aisle, isChecked) = arg
-		var cb = new GroceryItem(a, item, aisle, isChecked, foodid)
-		nextId += 1
-		cb.setId(nextId)
-		checklist += cb
-	}
 	
-	override def getCount: Int = checklist.length
+	override def getCount: Int = items.length
 	
-	override def getItem(position: Int): Object = checklist(position)
+	override def getItem(position: Int): Object = items(position)
 	
 	override def getItemId(position: Int): Long = position
 	
-	override def getView(position: Int, convertView: View, parent: ViewGroup): View = checklist(position)
-}
-
-class CheckedListener (parent: Activity, foodid : Long) extends OnCheckedChangeListener {
-	override def onCheckedChanged(buttonView : CompoundButton, isChecked : Boolean) {
-		databaseManager.getDB.markGroceryItemObtained(foodid, isChecked)
-		Toast.makeText(parent.getApplicationContext(), foodid.toString, Toast.LENGTH_SHORT).show
+	override def getView(position: Int, convertView: View, parent: ViewGroup): View = {
+		var (foodid, item, aisle, isChecked) = items(position)
+		if (convertView != null && convertView.isInstanceOf[GroceryItem]) {
+			var gi = convertView.asInstanceOf[GroceryItem]
+			gi.update(item, aisle, isChecked, foodid)
+			return gi
+		} else {
+			return new GroceryItem(a, item, aisle, isChecked, foodid)
+		}
+	}
+	
+	def refreshList {
+		Log.d(TAG, "List Refreshed");
+		items = db.getGroceryList
+		notifyDataSetChanged
 	}
 }
 
-class GroceryItem (parent: Activity, val name: String, aisle: String, isChecked: Boolean, foodid: Long) extends CheckBox (parent) {
-	setText("(" + aisle + ") " + name)
-	setChecked(isChecked)
+class CheckedListener (parent: Activity, gi : GroceryItem) extends OnCheckedChangeListener {
+	override def onCheckedChanged(buttonView : CompoundButton, isChecked : Boolean) {
+		databaseManager.getDB.markGroceryItemObtained(gi.foodid, isChecked)
+		Toast.makeText(parent.getApplicationContext(), gi.foodid.toString, Toast.LENGTH_SHORT).show
+	}
+}
+
+class GroceryItem (parent: Activity, var name: String, var aisle: String, var isFoodChecked: Boolean, var foodid: Long) extends CheckBox (parent) {
 	setFocusable(false)
-	setOnCheckedChangeListener(new CheckedListener(parent, foodid))
+	setOnCheckedChangeListener(new CheckedListener(parent, this))
 	parent.registerForContextMenu(this)
+	update
 	
 	def getName = name
+	
+	def update(_name: String, _aisle: String, _isChecked: Boolean, _foodid: Long) {
+		name = _name
+		aisle = _aisle
+		isFoodChecked = _isChecked
+		foodid = _foodid
+		update
+	}
+	
+	def update {
+		setText("(" + aisle + ") " + name)
+		setChecked(isChecked)
+	}
 }
