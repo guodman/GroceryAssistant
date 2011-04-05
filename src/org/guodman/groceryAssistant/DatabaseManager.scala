@@ -1,5 +1,11 @@
 package org.guodman.groceryAssistant
 
+import java.io.IOException
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
 import android.util.Log
 import android.database.sqlite.SQLiteConstraintException
 import android.database.Cursor
@@ -25,10 +31,41 @@ object databaseManager {
 		return _db
 	}
 	
+	val usageDatabaseFile = "/data/data/org.guodman.groceryAssistant/databases/GroceryAssistant"
+	val backupDatabaseFile = "/mnt/sdcard/groceryAssistant.db"
+	
+	// usage location: "/data/data/org.guodman.groceryAssistant/databases/GroceryAssistant"
+	// sdcard location: "/mnt/sdcard/groceryAssistant.db"
+	def copyDataBase(source: String, destination: String) {
+		// Open the local db as the input stream
+		var myInput: InputStream = null
+		try {
+			//myInput = c.getAssets().open(DB_NAME);
+			myInput = new FileInputStream(source)
+
+			// Open the empty db as the output stream
+			var myOutput: OutputStream = new FileOutputStream(destination)
+
+			// transfer bytes from the inputfile to the outputfile
+			var buffer: Array[Byte] = new Array[Byte](1024)
+			var length: Int = myInput.read(buffer)
+			while (length > 0) {
+				myOutput.write(buffer, 0, length)
+				length = myInput.read(buffer)
+			}
+			// Close the streams
+			myOutput.flush()
+			myOutput.close()
+			myInput.close()
+		} catch {
+			// TODO Auto-generated catch block
+			case e: IOException => e.printStackTrace()
+		}
+	}
+	
 	def db = getDB
 
 	class DatabaseManager (context: Context) {
-		val DATABASE_NAME : String= "example.db"
 		val DATABASE_VERSION : Int = 1
 		
 		var openHelper = new OpenHelper(context, DATABASE_VERSION)

@@ -1,5 +1,6 @@
 package org.guodman.groceryAssistant
 
+import android.text.InputType
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -36,10 +37,12 @@ class EditItem extends Activity {
 	    
 	    var name : EditText = new EditText(this)
 	    name.setText(foodName)
+	    name.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS)
 	    l.addView(name)
 	    
 	    var aisle : EditText = new EditText(this)
 	    aisle.setText(databaseManager.db.getAisle(foodName))
+	    aisle.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS)
 	    l.addView(aisle)
 	    
 	    var addChild: Button = new Button(this)
