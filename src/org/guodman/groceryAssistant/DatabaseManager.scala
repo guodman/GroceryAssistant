@@ -1,5 +1,6 @@
 package org.guodman.groceryAssistant
 
+import android.os.Environment
 import java.io.IOException
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -32,7 +33,7 @@ object databaseManager {
 	}
 	
 	val usageDatabaseFile = "/data/data/org.guodman.groceryAssistant/databases/GroceryAssistant"
-	val backupDatabaseFile = "/mnt/sdcard/groceryAssistant.db"
+	val backupDatabaseFile = Environment.getExternalStorageDirectory() + "/groceryAssistant.db"
 	
 	// usage location: "/data/data/org.guodman.groceryAssistant/databases/GroceryAssistant"
 	// sdcard location: "/mnt/sdcard/groceryAssistant.db"
