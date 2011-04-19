@@ -59,6 +59,7 @@ class EditItem extends Activity {
 		override def onClick(v: View): Unit = {
 			var db = databaseManager.getDB
 			db.editFood(foodid, name.getText.toString, aisle.getText.toString)
+			setResult(foodid)
 			finish
 		}
 	}

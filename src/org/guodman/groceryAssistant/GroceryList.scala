@@ -36,7 +36,6 @@ import android.widget.TextView
 class GroceryList extends ListActivity {
 	private val TAG = "GroceryList"
 	
-	var checklist = ListBuffer[CheckBox]()
 	var view: LinearLayout = null
 	var adapter: GroceryListAdapter = null
 	var lastClicked: GroceryItem = null
@@ -49,23 +48,22 @@ class GroceryList extends ListActivity {
 	}
 
 	override def onCreateOptionsMenu(menu: Menu): Boolean = {
-		var inflater = getMenuInflater()
-		inflater.inflate(R.menu.grocerymenu, menu)
+		super.onCreateOptionsMenu(menu)
+		menu.clear()
+		menu.add(0, 1, 1, "Remove Checked Items")
 		return true
 	}
 	
 	override def onOptionsItemSelected(item: MenuItem): Boolean = {
-		if (item.getItemId == R.id.clearchecked) {
-			checklist foreach { arg =>
-				if (arg.isChecked) {
-					view.removeView(arg)
-					checklist -= arg
-				}
+		Log.d(TAG, "Item Id: " + item.getItemId)
+		item.getItemId match {
+			case 1 => {
+				databaseManager.db.removeCheckedItems
+				adapter.refreshList
+				return true
 			}
-			databaseManager.db.removeCheckedItems
-			return true
+			case _ => return false
 		}
-		return false
 	}
 	
 	override def onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo): Unit = {

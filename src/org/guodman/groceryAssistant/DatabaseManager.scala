@@ -193,13 +193,14 @@ object databaseManager {
 			insertStmt.close
 		}
 	
-		def createFood(name: String, aisle: String) : Unit = {
+		def createFood(name: String, aisle: String) : Long = {
 			val insertFood = "INSERT INTO foods (name, aisle) values (?, ?)"
 			val insertStmt = db.compileStatement(insertFood)
 			insertStmt.bindString(1, name)
 			insertStmt.bindString(2, aisle)
-			insertStmt.executeInsert
+			val id = insertStmt.executeInsert
 			insertStmt.close
+			return id
 		}
 		
 		def editFood(foodid: Int, name: String, aisle: String) : Unit = {

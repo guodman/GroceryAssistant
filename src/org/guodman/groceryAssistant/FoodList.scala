@@ -30,7 +30,7 @@ class FoodList extends ListActivity {
 		setListAdapter(adapter)
 		val lv: ListView = getListView
 		lv.setTextFilterEnabled(true)
-		lv.setOnItemClickListener(new AddToGroceryList)
+		lv.setOnItemClickListener(new AddToGroceryList(this))
 		this.registerForContextMenu(lv)
 	}
 	
@@ -64,19 +64,19 @@ trait FoodClickListener {
 	def activity = _activity
 }
 
-class AddToGroceryList extends OnItemClickListener with FoodClickListener {
+class AddToGroceryList(c: Context) extends OnItemClickListener with FoodClickListener {
 	def onItemClick(parent: AdapterView[_], view: View,
                    position: Int, id: Long): Unit = {
 		// When clicked, show a toast with the TextView text
-		Toaster.doToast(view.asInstanceOf[TextView].getText)
+		Toaster.doToast(c, view.asInstanceOf[TextView].getText)
 		databaseManager.getDB.addToGroceryList(view.asInstanceOf[TextView].getText.asInstanceOf[String])
 	}
 }
 
-class AddToFood(parentFood: String) extends OnItemClickListener with FoodClickListener {
+class AddToFood(c: Context, parentFood: String) extends OnItemClickListener with FoodClickListener {
 	def onItemClick(parent: AdapterView[_], view: View,
                    position: Int, id: Long): Unit = {
-		Toaster.doToast(view.asInstanceOf[TextView].getText)
+		Toaster.doToast(c, view.asInstanceOf[TextView].getText)
 		databaseManager.getDB.addChildToFood(parentFood, view.asInstanceOf[TextView].getText.asInstanceOf[String])
 		activity.finish
 	}

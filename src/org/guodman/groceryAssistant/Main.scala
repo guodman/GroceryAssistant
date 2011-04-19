@@ -13,7 +13,6 @@ import android.widget.Button
 
 class Main extends Activity {
 	override def onCreate(savedInstanceState: Bundle): Unit = {
-		Toaster.context = getApplicationContext
 		super.onCreate(savedInstanceState)
 		
 		var menu: LinearLayout = new LinearLayout(this)
@@ -43,9 +42,9 @@ class Main extends Activity {
 				var f = new File(databaseManager.usageDatabaseFile)
 				if (f.exists) {
 					databaseManager.copyDataBase(databaseManager.usageDatabaseFile, databaseManager.backupDatabaseFile)
-					Toaster.doToast("Backup Complete")
+					Toaster.doToast(Main.this, "Backup Complete")
 				} else {
-					Toaster.doToast("There is no database to back up")
+					Toaster.doToast(Main.this, "There is no database to back up")
 				}
 			}
 		})
@@ -58,9 +57,9 @@ class Main extends Activity {
 				var f = new File(databaseManager.backupDatabaseFile)
 				if (f.exists) {
 					databaseManager.copyDataBase(databaseManager.backupDatabaseFile, databaseManager.usageDatabaseFile)
-					Toaster.doToast("Restore Complete")
+					Toaster.doToast(Main.this, "Restore Complete")
 				} else {
-					Toaster.doToast("There is no database to restore")
+					Toaster.doToast(Main.this, "There is no database to restore")
 				}
 			}
 		})
