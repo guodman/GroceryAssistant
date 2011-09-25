@@ -107,14 +107,16 @@ class GroceryList extends ListActivity {
 class GroceryListAdapter(a: Activity) extends BaseAdapter {
 	val TAG = "GroceryListAdapter"
 	
-	var db = databaseManager.getDB(a)
-	var items = db.getGroceryList()
+	var items = databaseManager.getDB(a).getGroceryList()
 	
 	override def getCount: Int = items.length
 	
 	override def getItem(position: Int): Object = items(position)
 	
-	override def getItemId(position: Int): Long = position
+	override def getItemId(position: Int): Long = {
+		val (foodid, item, aisle, isChecked) = items(position)
+		return foodid
+	}
 	
 	override def getView(position: Int, convertView: View, parent: ViewGroup): View = {
 		var (foodid, item, aisle, isChecked) = items(position)
@@ -129,21 +131,20 @@ class GroceryListAdapter(a: Activity) extends BaseAdapter {
 	
 	def refreshList {
 		Log.d(TAG, "List Refreshed");
-		items = db.getGroceryList
+		items = databaseManager.getDB(a).getGroceryList
 		notifyDataSetChanged
 	}
 }
 
 class CheckedListener (parent: Activity, gi : GroceryItem) extends OnCheckedChangeListener {
 	override def onCheckedChanged(buttonView : CompoundButton, isChecked : Boolean) {
-		databaseManager.getDB.markGroceryItemObtained(gi.foodid, isChecked)
+		databaseManager.getDB(parent).markGroceryItemObtained(gi.foodid, isChecked)
 		Toast.makeText(parent.getApplicationContext(), gi.foodid.toString, Toast.LENGTH_SHORT).show
 	}
 }
 
 class GroceryItem (parent: Activity, var name: String, var aisle: String, var isFoodChecked: Boolean, var foodid: Long) extends CheckBox (parent) {
 	setFocusable(false)
-	setOnCheckedChangeListener(new CheckedListener(parent, this))
 	parent.registerForContextMenu(this)
 	update
 	
@@ -158,7 +159,8 @@ class GroceryItem (parent: Activity, var name: String, var aisle: String, var is
 	}
 	
 	def update {
+		setOnCheckedChangeListener(new CheckedListener(parent, this))
 		setText("(" + aisle + ") " + name)
-		setChecked(isChecked)
+		setChecked(isFoodChecked)
 	}
 }
